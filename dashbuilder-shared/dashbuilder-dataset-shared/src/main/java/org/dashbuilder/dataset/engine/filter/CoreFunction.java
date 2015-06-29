@@ -52,6 +52,9 @@ public class CoreFunction extends DataSetFunction {
         if (CoreFunctionType.EQUALS_TO.equals(type)) {
             return isEqualsTo(getCurrentValue());
         }
+        if (CoreFunctionType.LIKE.equals(type)) {
+            return isLike(getCurrentValue());
+        }
         if (CoreFunctionType.NOT_EQUALS_TO.equals(type)) {
             return isNotEqualsTo(getCurrentValue());
         }
@@ -89,6 +92,13 @@ public class CoreFunction extends DataSetFunction {
 
         Comparable ref = getParameter(0);
         return ref.equals(value);
+    }
+
+    public boolean isLike(Comparable value) {
+        if (isNull(value)) return false;
+
+        Comparable ref = getParameter(0);
+        return value.toString().contains(ref.toString());
     }
 
     public boolean isNotEqualsTo(Comparable value) {
