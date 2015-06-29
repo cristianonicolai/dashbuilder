@@ -36,6 +36,7 @@ public enum CoreFunctionType {
     LOWER_THAN(1),
     LOWER_OR_EQUALS_TO(1),
     BETWEEN(2),
+    LIKE(1),
     TIME_FRAME(1);
 
     private final int parametersCount;

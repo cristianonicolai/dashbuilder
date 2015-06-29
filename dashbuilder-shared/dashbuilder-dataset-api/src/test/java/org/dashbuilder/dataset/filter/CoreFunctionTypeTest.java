@@ -10,6 +10,7 @@ import static org.dashbuilder.dataset.filter.CoreFunctionType.LOWER_OR_EQUALS_TO
 import static org.dashbuilder.dataset.filter.CoreFunctionType.LOWER_THAN;
 import static org.dashbuilder.dataset.filter.CoreFunctionType.NOT_EQUALS_TO;
 import static org.dashbuilder.dataset.filter.CoreFunctionType.NOT_NULL;
+import static org.dashbuilder.dataset.filter.CoreFunctionType.LIKE;
 
 import org.dashbuilder.dataset.ColumnType;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class CoreFunctionTypeTest {
                 .contains(CoreFunctionType.values());
 
         CoreFunctionType[] allExceptTimeFrame = {IS_NULL, NOT_NULL, EQUALS_TO, NOT_EQUALS_TO,
-            GREATER_THAN, GREATER_OR_EQUALS_TO, LOWER_THAN, LOWER_OR_EQUALS_TO, BETWEEN};
+            GREATER_THAN, GREATER_OR_EQUALS_TO, LOWER_THAN, LOWER_OR_EQUALS_TO, BETWEEN, LIKE};
 
         assertThat(CoreFunctionType.getSupportedTypes(ColumnType.LABEL))
                 .containsExactly(allExceptTimeFrame);

@@ -61,6 +61,10 @@ public class FilterFactory {
     public static ColumnFilter equalsTo(String columnId, List<Comparable> allowedValues) {
         return new CoreFunctionFilter(columnId, CoreFunctionType.EQUALS_TO, allowedValues);
     }
+    
+    public static ColumnFilter like(String columnId, Comparable allowedValue) {
+        return new CoreFunctionFilter(columnId, CoreFunctionType.LIKE, allowedValue);
+    }
 
     public static ColumnFilter notEqualsTo(Comparable allowedValue) {
         return notEqualsTo(null, allowedValue);

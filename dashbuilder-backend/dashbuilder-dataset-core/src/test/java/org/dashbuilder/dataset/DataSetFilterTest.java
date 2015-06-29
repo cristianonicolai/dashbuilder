@@ -70,6 +70,20 @@ public class DataSetFilterTest {
         assertDataSetValue(result, 0, 0, "1.00");
         assertDataSetValue(result, 5, 0, "6.00");
     }
+    
+    @Test
+    public void testFilterLikeString() throws Exception {
+        DataSet result = dataSetManager.lookupDataSet(
+                DataSetFactory.newDataSetLookupBuilder()
+                .dataset(EXPENSE_REPORTS)
+                .filter("city", like("city", "Barc"))
+                .buildLookup());
+
+        //printDataSet(result);
+        assertThat(result.getRowCount()).isEqualTo(6);
+        assertDataSetValue(result, 0, 0, "1.00");
+        assertDataSetValue(result, 5, 0, "6.00");
+    }
 
     @Test
     public void testFilterByNumber() throws Exception {
