@@ -15,11 +15,12 @@
  */
 package org.dashbuilder.client.widgets.dataset.editor.widgets;
 
-import com.github.gwtbootstrap.client.ui.*;
-import com.github.gwtbootstrap.client.ui.Button;
-import com.github.gwtbootstrap.client.ui.constants.ButtonType;
-import com.github.gwtbootstrap.client.ui.event.ShowEvent;
-import com.github.gwtbootstrap.client.ui.event.ShowHandler;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import javax.enterprise.context.Dependent;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,9 +29,11 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import org.dashbuilder.client.widgets.dataset.editor.widgets.events.EditDataSetEvent;
 import org.dashbuilder.client.widgets.dataset.editor.widgets.events.EditDataSetEventHandler;
 import org.dashbuilder.client.widgets.resources.i18n.DataSetExplorerConstants;
@@ -40,9 +43,21 @@ import org.dashbuilder.dataset.client.DataSetMetadataCallback;
 import org.dashbuilder.dataset.client.resources.bundles.DataSetClientImages;
 import org.dashbuilder.dataset.client.resources.bundles.DataSetClientResources;
 import org.dashbuilder.dataset.def.DataSetDef;
-
-import javax.enterprise.context.Dependent;
-import java.util.*;
+import org.gwtbootstrap3.client.shared.event.ShowEvent;
+import org.gwtbootstrap3.client.shared.event.ShowHandler;
+import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Heading;
+import org.gwtbootstrap3.client.ui.Image;
+import org.gwtbootstrap3.client.ui.Modal;
+import org.gwtbootstrap3.client.ui.Panel;
+import org.gwtbootstrap3.client.ui.PanelBody;
+import org.gwtbootstrap3.client.ui.PanelCollapse;
+import org.gwtbootstrap3.client.ui.PanelGroup;
+import org.gwtbootstrap3.client.ui.PanelHeader;
+import org.gwtbootstrap3.client.ui.Row;
+import org.gwtbootstrap3.client.ui.constants.HeadingSize;
+import org.gwtbootstrap3.client.ui.constants.Toggle;
+import org.gwtbootstrap3.client.ui.html.Text;
 
 /**
  * <p>Default view for DataSetExplorer presenter.</p> 
@@ -54,7 +69,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
     private final static String WHITESPACE = " ";
     private final static String ICONS_SIZE = "16px";
     private final static String ESTIMATIONS_FORMAT = "#,###.0";
-    
+
     private final static NumberFormat rowsFormat = NumberFormat.getFormat("##0");
 
     interface DataSetExplorerViewBinder extends UiBinder<Widget, DataSetExplorerView> {}
@@ -99,13 +114,13 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
 
     @UiField
     Row errorCauseRow;
-    
+
     @UiField
-    Accordion dataSetsAccordion;
-    
+    PanelGroup dataSetsAccordion;
+
     @UiField
     Label label;
-    
+
     private Set<DataSetDef> dataSets;
 
     private final ClickHandler errorPanelButtonHandler = new ClickHandler() {
@@ -114,7 +129,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
             hideError();
         }
     };
-    
+
     public DataSetExplorerView() {
         initWidget(uiBinder.createAndBindUi(this));
         dataSets = new LinkedHashSet<DataSetDef>();
@@ -137,13 +152,13 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
             remove(dataSetDef.getUUID());
         }
     }
-    
+
     @Override
     public boolean update(final DataSetDef oldDataSetDef, final DataSetDef newDataSetDef) {
         remove(oldDataSetDef.getUUID());
         return dataSets.add(newDataSetDef);
     }
-    
+
     private void remove(final String uuid) {
         if (dataSets != null )
         {
@@ -161,7 +176,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
         dataSets.clear();
         clearView();
     }
-    
+
     private void clearView() {
         label.setText("");
         label.setVisible(false);
@@ -175,10 +190,9 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
         if (!dataSets.isEmpty()) {
             label.setVisible(false);
             for (DataSetDef dataSetDef : dataSets) {
-                final AccordionGroup accordionGroup = buildDataSetAccordionGroup(dataSetDef, callback);
-                dataSetsAccordion.add(accordionGroup);
+                buildDataSetAccordionGroup(dataSetsAccordion, dataSetDef, callback);
             }
-            
+
         } else {
             label.setText(DataSetExplorerConstants.INSTANCE.noDataSets());
             label.setVisible(true);
@@ -186,27 +200,49 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
         dataSetsAccordion.setVisible(true);
     }
 
-    private AccordionGroup buildDataSetAccordionGroup(final DataSetDef dataSetDef, final DataSetExplorer.ShowDataSetDefCallback callback) {
-        final AccordionGroup accordionGroup = new AccordionGroup();
+    private void buildDataSetAccordionGroup(final PanelGroup parent, final DataSetDef dataSetDef, final DataSetExplorer.ShowDataSetDefCallback callback) {
+        final Panel accordionGroup = new Panel();
 
-        // Heading.
-        accordionGroup.setHeading(dataSetDef.getName());
-        // CollapseTrigger collapseTrigger = new CollapseTrigger();
-        
+        final PanelHeader header =  new PanelHeader();
+
         // Icon for provider type.
         final Image typeIcon = buildTypeIcon(dataSetDef);
-        if (typeIcon != null) accordionGroup.addCustomTrigger(typeIcon);
-        
-        accordionGroup.addShowHandler(new ShowHandler() {
+        // Heading.
+        final Heading heading;
+
+        if (typeIcon != null) {
+            heading = new Heading( HeadingSize.H4 ) {{
+                add( typeIcon );
+                add(new Text( dataSetDef.getName() ));
+            }};
+        } else {
+            heading = new Heading( HeadingSize.H4, dataSetDef.getName() );
+        }
+
+        header.add( heading );
+
+        final PanelCollapse collapse = new PanelCollapse();
+
+        header.setDataTargetWidget( collapse );
+        header.setDataParent( parent.getId() );
+        header.setDataToggle( Toggle.COLLAPSE );
+
+        final PanelBody body = new PanelBody();
+        collapse.add( body );
+
+        collapse.addShowHandler(new ShowHandler() {
             @Override
-            public void onShow(ShowEvent showEvent) {
-                buildDescription(dataSetDef, accordionGroup, callback);
+            public void onShow( ShowEvent showEvent) {
+                buildDescription(dataSetDef, body, callback);
             }
         });
-        
-        return accordionGroup;
-    } 
-    
+
+        accordionGroup.add( header );
+        accordionGroup.add( collapse );
+
+        parent.add( accordionGroup );
+    }
+
     private Image buildTypeIcon(final DataSetDef dataSetDef) {
         Image typeIcon = null;
         switch (dataSetDef.getProvider()) {
@@ -233,27 +269,27 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
         }
         typeIcon.setSize(ICONS_SIZE, ICONS_SIZE);
         return typeIcon;
-        
+
     }
-    
-    private void buildDescription(final DataSetDef dataSetDef, final Panel parent, final DataSetExplorer.ShowDataSetDefCallback callback) {
+
+    private void buildDescription(final DataSetDef dataSetDef, final PanelBody parent, final DataSetExplorer.ShowDataSetDefCallback callback) {
         if (parent != null) {
             // Clear current details.
             parent.clear();
-            
-            final DataSetClientImages images = DataSetClientResources.INSTANCE.images(); 
-            
+
+            final DataSetClientImages images = DataSetClientResources.INSTANCE.images();
+
             final HTML statusText = new HTML(DataSetExplorerConstants.INSTANCE.currentStatus());
             statusText.addStyleName(style.statusTextTitle());
-            
+
             // Caches and refresh.
-            
+
             final boolean isCacheEnabled = dataSetDef.isCacheEnabled();
             FlowPanel cachePanel = null;
-            
+
             if (callback.isShowBackendCache(dataSetDef)) {
                 cachePanel = new FlowPanel();
-                final com.github.gwtbootstrap.client.ui.Image cacheEnabled = new com.github.gwtbootstrap.client.ui.Image(
+                final org.gwtbootstrap3.client.ui.Image cacheEnabled = new org.gwtbootstrap3.client.ui.Image(
                         isCacheEnabled ? images.okIconSmall() : images.cancelIconSmall());
                 final String _cache = isCacheEnabled ? DataSetExplorerConstants.INSTANCE.enabled() : DataSetExplorerConstants.INSTANCE.disabled();
                 cacheEnabled.setTitle(_cache);
@@ -265,10 +301,10 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
                 cachePanel.add(cacheText);
             }
 
-            
+
             final boolean isPushEnabled = dataSetDef.isPushEnabled();
             final FlowPanel pushPanel = new FlowPanel();
-            final com.github.gwtbootstrap.client.ui.Image pushEnabled = new com.github.gwtbootstrap.client.ui.Image(
+            final org.gwtbootstrap3.client.ui.Image pushEnabled = new org.gwtbootstrap3.client.ui.Image(
                     isPushEnabled ? images.okIconSmall() : images.cancelIconSmall());
             final String _push = isPushEnabled ? DataSetExplorerConstants.INSTANCE.enabled() : DataSetExplorerConstants.INSTANCE.disabled();
             pushEnabled.setTitle(_push);
@@ -281,7 +317,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
 
             final boolean isRefreshEnabled = dataSetDef.getRefreshTime() != null;
             final FlowPanel refreshPanel = new FlowPanel();
-            final com.github.gwtbootstrap.client.ui.Image refreshEnabled = new com.github.gwtbootstrap.client.ui.Image(
+            final org.gwtbootstrap3.client.ui.Image refreshEnabled = new org.gwtbootstrap3.client.ui.Image(
                     isRefreshEnabled ? images.okIconSmall() : images.cancelIconSmall());
             final String _refresh = isRefreshEnabled ? DataSetExplorerConstants.INSTANCE.enabled() : DataSetExplorerConstants.INSTANCE.disabled();
             refreshEnabled.setTitle(_refresh);
@@ -291,7 +327,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
             refreshText.addStyleName(style.statusText());
             refreshPanel.add(refreshEnabled);
             refreshPanel.add(refreshText);
-        
+
             final FlowPanel statusPanel = new FlowPanel();
             statusPanel.addStyleName(style.statusPanel());
             statusPanel.add(statusText);
@@ -302,18 +338,18 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
             // Estimated rows and size.
             final FlowPanel estimationsPanel = new FlowPanel();
             estimationsPanel.addStyleName(style.estimationsPanel());
-            
+
             // Add current size title.
             final HTML currentSizeText = new HTML(DataSetExplorerConstants.INSTANCE.currentSize());
             currentSizeText.addStyleName(style.statusTextTitle());
             estimationsPanel.add(currentSizeText);
-            
+
             // Add the loading icon while performing the backend call to fetch metadata.
-            final com.github.gwtbootstrap.client.ui.Image loadingIcon = new com.github.gwtbootstrap.client.ui.Image(DataSetClientResources.INSTANCE.images().loadingIcon().getSafeUri());
+            final org.gwtbootstrap3.client.ui.Image loadingIcon = new org.gwtbootstrap3.client.ui.Image(DataSetClientResources.INSTANCE.images().loadingIcon().getSafeUri());
             loadingIcon.setTitle(DataSetExplorerConstants.INSTANCE.loading());
             loadingIcon.setAltText(DataSetExplorerConstants.INSTANCE.loading());
             estimationsPanel.add(loadingIcon);
-            
+
             // Perform the backend call to fetch data set metadata.
             callback.getMetadata(dataSetDef, new DataSetMetadataCallback() {
 
@@ -321,7 +357,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
                 public void callback(DataSetMetadata metadata) {
                     // Clear the loading texxt.
                     estimationsPanel.clear();
-                    
+
                     // Show estimations.
                     final int estimatedSize = metadata.getEstimatedSize();
                     final int rowCount = metadata.getNumberOfRows();
@@ -329,7 +365,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
                     // Add current size title.
                     final HTML currentSizeText = new HTML(DataSetExplorerConstants.INSTANCE.currentSize());
                     currentSizeText.addStyleName(style.statusTextTitle());
-                    
+
                     // Add estimation values.
                     final HTML estimatedSizeText = new HTML(humanReadableByteCount(estimatedSize));
                     estimatedSizeText.addStyleName(style.statusText());
@@ -354,7 +390,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
                     showError(error);
                     return false;
                 }
-                
+
                 private void error() {
                     loadingIcon.setUrl(DataSetClientResources.INSTANCE.images().cancelIconSmall().getSafeUri());
                     loadingIcon.setTitle(DataSetExplorerConstants.INSTANCE.error());
@@ -371,7 +407,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
             // Buttons
             final FlowPanel buttonsPanel = new FlowPanel();
 
-            final com.github.gwtbootstrap.client.ui.Button editButton = new Button(DataSetExplorerConstants.INSTANCE.edit());
+            final Button editButton = new Button(DataSetExplorerConstants.INSTANCE.edit());
             final boolean isPublic = dataSetDef.isPublic();
             editButton.setEnabled(isPublic);
             editButton.addStyleName(style.button());
@@ -397,7 +433,7 @@ public class DataSetExplorerView extends Composite implements DataSetExplorer.Vi
     public void showError(final String message, String cause) {
         if (message != null) GWT.log("Error message: " + message);
         if (cause != null) GWT.log("Error cause: " + cause);
-        
+
         errorMessage.setText(message != null ? message : "");
         errorMessageRow.setVisible(message != null);
         errorCause.setText(cause != null ? cause : "");

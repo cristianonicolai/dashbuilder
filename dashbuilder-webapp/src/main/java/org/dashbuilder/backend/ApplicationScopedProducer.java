@@ -1,5 +1,7 @@
 package org.dashbuilder.backend;
 
+import java.net.URI;
+import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -18,6 +20,7 @@ import org.uberfire.io.IOService;
 import org.uberfire.io.impl.IOServiceDotFileImpl;
 import org.uberfire.io.impl.IOServiceNio2WrapperImpl;
 import org.uberfire.io.impl.cluster.IOServiceClusterImpl;
+import org.uberfire.java.nio.file.FileSystem;
 
 @Startup(StartupType.BOOTSTRAP)
 @ApplicationScoped
@@ -35,6 +38,12 @@ public class ApplicationScopedProducer {
 
     private IOService ioService;
 
+    @Inject
+    @Named("configIO")
+    private IOService configIO;
+
+    private FileSystem systemFS;
+
     @PostConstruct
     public void setup() {
         if ( clusterServiceFactory == null ) {
@@ -42,12 +51,29 @@ public class ApplicationScopedProducer {
         } else {
             ioService = new IOServiceClusterImpl(new IOServiceDotFileImpl(watchService), clusterServiceFactory);
         }
+        try {
+            systemFS = configIO.getFileSystem( URI.create( "git://system" ));
+        }
+        catch ( Exception e ){
+
+            systemFS = configIO.newFileSystem( URI.create( "git://system" ),
+                                               new HashMap<String, Object>() {{
+                                                   put( "init", Boolean.TRUE );
+                                                   put( "internal", Boolean.TRUE );
+                                               }} );
+        }
     }
 
     @Produces
     @Named("ioStrategy")
     public IOService ioService() {
         return ioService;
+    }
+
+    @Produces
+    @Named("systemFS")
+    public FileSystem systemFS() {
+        return systemFS;
     }
 
     @Produces

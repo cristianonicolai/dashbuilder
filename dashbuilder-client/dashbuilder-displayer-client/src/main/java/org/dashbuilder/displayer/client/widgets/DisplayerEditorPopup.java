@@ -48,8 +48,8 @@ public class DisplayerEditorPopup extends BaseModal {
     public DisplayerEditorPopup(DisplayerEditor editor) {
         this.editor = editor;
         add(uiBinder.createAndBindUi(this));
-        setMaxHeigth("550px");
-        setWidth(950);
+        //setMaxHeigth("550px");
+        setWidth(950+"px");
     }
 
     public void init(final DisplayerSettings settings, final DisplayerEditor.Listener editorListener) {

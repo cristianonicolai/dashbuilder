@@ -19,16 +19,16 @@ package org.dashbuilder.client.dashboard.widgets;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.github.gwtbootstrap.client.ui.ControlGroup;
-import com.github.gwtbootstrap.client.ui.HelpInline;
-import com.github.gwtbootstrap.client.ui.TextBox;
-import com.github.gwtbootstrap.client.ui.constants.ControlGroupType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Widget;
 import org.dashbuilder.client.dashboard.DashboardManager;
+import org.gwtbootstrap3.client.ui.FormGroup;
+import org.gwtbootstrap3.client.ui.HelpBlock;
+import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.constants.ValidationState;
 import org.uberfire.ext.widgets.common.client.common.popups.BaseModal;
 import org.uberfire.ext.widgets.common.client.common.popups.footers.ModalFooterOKCancelButtons;
 
@@ -44,13 +44,13 @@ public class NewDashboardForm extends BaseModal {
     private static Binder uiBinder = GWT.create(Binder.class);
 
     @UiField
-    ControlGroup nameGroup;
+    FormGroup nameGroup;
 
     @UiField
     TextBox nameTextBox;
 
     @UiField
-    HelpInline nameHelpInline;
+    HelpBlock nameHelpInline;
 
     @Inject
     DashboardManager dashboardManager;
@@ -81,7 +81,7 @@ public class NewDashboardForm extends BaseModal {
         this.listener = listener;
 
         nameTextBox.setText("");
-        nameGroup.setType(ControlGroupType.NONE);
+        nameGroup.setValidationState(ValidationState.NONE);
         nameHelpInline.setText("");
         super.show();
     }
@@ -95,11 +95,11 @@ public class NewDashboardForm extends BaseModal {
         String name = nameTextBox.getText();
 
         if (name == null || name.trim().isEmpty()) {
-            nameGroup.setType(ControlGroupType.ERROR);
+            nameGroup.setValidationState(ValidationState.ERROR);
             nameHelpInline.setText("Name is mandatory");
         }
         else if (dashboardManager.getDashboardByName(name) != null) {
-            nameGroup.setType(ControlGroupType.ERROR);
+            nameGroup.setValidationState(ValidationState.ERROR);
             nameHelpInline.setText("Already exists");
         }
         else {
