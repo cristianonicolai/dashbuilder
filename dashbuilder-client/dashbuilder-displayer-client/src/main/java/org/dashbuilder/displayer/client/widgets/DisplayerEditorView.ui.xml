@@ -31,7 +31,8 @@
       width: 250px;
       max-width: 250px;
       max-height: 390px;
-      overflow-y: auto;
+      overflow-y: hidden;
+      margin-top: 15px;
     }
     .centerPanel {
       font-size: 12pt;
@@ -46,6 +47,7 @@
     .dataTablePanel {
       font-size: 12pt;
       float: left;
+      margin: 10px;
     }
   </ui:style>
 
@@ -58,8 +60,7 @@
     <g:HorizontalPanel>
       <g:VerticalPanel>
         <g:HorizontalPanel ui:field="dataTablePanel" styleName="{style.dataTablePanel}" visible="false">
-          <g:Label text="{i18n.displayer_editor_view_as_table}"/>
-          <b:CheckBox ui:field="viewAsTable" />
+          <b:CheckBox text="{i18n.displayer_editor_view_as_table}" ui:field="viewAsTable" />
         </g:HorizontalPanel>
         <g:SimplePanel ui:field="leftPanel" styleName="{style.leftPanel}" />
       </g:VerticalPanel>

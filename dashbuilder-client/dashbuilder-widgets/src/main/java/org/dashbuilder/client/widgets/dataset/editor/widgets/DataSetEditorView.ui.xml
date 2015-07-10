@@ -30,6 +30,7 @@
     .editorPanel {
       margin: 15px;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .providerTypeEditor {
@@ -69,13 +70,13 @@
       border: 1px solid lavender;
       border-left-width: 0px;
       cursor: pointer;
-      margin-top: 41px;
+      margin-top: 44px;
       height: 450px;
       left: 10px;
     }
 
     .columnsFilterDisclosurePanelHeaderOpen {
-      left: 376px;
+      left: 360px;
     }
 
     .columnsFilterDisclosurePanelButton {
@@ -95,6 +96,7 @@
       width: 340px;
       overflow: hidden;
       height: 450px;
+      margin-top: 10px;
     }
 
     .specificProviderAttributesPanel {
@@ -109,7 +111,8 @@
     }
 
     .previewTable {
-      overflow: hidden;
+      height: 100%;
+      overflow: auto;
     }
 
     .tabInnerPanel {
@@ -146,24 +149,26 @@
     <!-- Error panel. -->
     <b:Modal ui:field="errorPanel" title="{i18n.error}" dataBackdrop="STATIC" dataKeyboard="true" fade="true">
 
-      <g:FlowPanel addStyleNames="{style.errorPanel}">
-        <b:Row ui:field="errorMessageRow" addStyleNames="{style.errorRow}">
-          <b:Column size="MD_1">
-            <g:Label text="{i18n.message}" addStyleNames="{style.errorLabel}"/>
-          </b:Column>
-          <b:Column size="MD_3">
-            <g:HTML ui:field="errorMessage" text=""/>
-          </b:Column>
-        </b:Row>
-        <b:Row ui:field="errorCauseRow" addStyleNames="{style.errorRow}">
-          <b:Column size="MD_1">
-            <g:Label text="{i18n.cause}" addStyleNames="{style.errorLabel}"/>
-          </b:Column>
-          <b:Column size="MD_3">
-            <g:HTML ui:field="errorCause" text=""/>
-          </b:Column>
-        </b:Row>
-      </g:FlowPanel>
+      <b:ModalBody>
+        <b:Container fluid="true" addStyleNames="{style.errorPanel}">
+          <b:Row ui:field="errorMessageRow" addStyleNames="{style.errorRow}">
+            <b:Column size="MD_12">
+              <g:Label text="{i18n.message}" addStyleNames="{style.errorLabel}"/>
+            </b:Column>
+            <b:Column size="MD_12">
+              <g:HTML ui:field="errorMessage" text=""/>
+            </b:Column>
+          </b:Row>
+          <b:Row ui:field="errorCauseRow" addStyleNames="{style.errorRow}">
+            <b:Column size="MD_12">
+              <g:Label text="{i18n.cause}" addStyleNames="{style.errorLabel}"/>
+            </b:Column>
+            <b:Column size="MD_12">
+              <g:HTML ui:field="errorCause" text=""/>
+            </b:Column>
+          </b:Row>
+        </b:Container>
+      </b:ModalBody>
 
       <b:ModalFooter>
         <b:Button ui:field="errorPanelButton" icon="CHECK" type="PRIMARY" text="{i18n.ok}"/>
@@ -242,10 +247,10 @@
 
                       <b:NavTabs>
                         <!-- Columns. -->
-                        <b:TabListItem title="{i18n.dataColumns}" active="true" ui:field="columnsTabItem"/>
-                        <b:TabListItem title="{i18n.filter}" ui:field="filterTabItem"/>
+                        <b:TabListItem title="{i18n.dataColumns}" text="{i18n.dataColumns}" active="true" ui:field="columnsTabItem"/>
+                        <b:TabListItem title="{i18n.filter}" text="{i18n.filter}" ui:field="filterTabItem"/>
                       </b:NavTabs>
-                      <b:TabContent>
+                      <b:TabContent marginTop="10">
                         <!-- Preview & columns & filter. -->
                         <b:TabPane ui:field="columnsTabPane" active="true">
                           <dash-dset-editors:DataSetColumnsEditor editMode="true" ui:field="columnsEditor" addStyleNames="{style.columnsEditor}"/>
@@ -286,11 +291,11 @@
       </b:Popover>
 
       <!-- Test provider settings button. -->
-      <b:Popover ui:field="testPopover" showDelayMs="500" content="{i18n.test_description}" title="{i18n.test}">
+      <b:Popover placement="RIGHT" ui:field="testPopover" showDelayMs="500" content="{i18n.test_description}" title="{i18n.test}">
         <b:Button text="{i18n.test}" ui:field="testButton" type="PRIMARY"/>
       </b:Popover>
 
-      <b:Popover ui:field="nextPopover" showDelayMs="500" content="{i18n.next_description}" title="{i18n.next}">
+      <b:Popover placement="RIGHT" ui:field="nextPopover" showDelayMs="500" content="{i18n.next_description}" title="{i18n.next}">
         <b:Button text="{i18n.next}" ui:field="nextButton" type="PRIMARY"/>
       </b:Popover>
 

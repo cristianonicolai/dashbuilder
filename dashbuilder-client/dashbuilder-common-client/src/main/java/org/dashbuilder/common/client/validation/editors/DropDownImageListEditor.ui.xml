@@ -26,7 +26,7 @@
   <g:HTMLPanel ui:field="errorPanel" addStyleNames="{style.errorPanel} ">
     <b:Tooltip title="" ui:field="errorTooltip">
       <b:DropDown ui:field="dropDown" addStyleNames="{style.dropDown}">
-        <b:Anchor ui:field="dropDownAnchor"/>
+        <b:Anchor dataToggle="DROPDOWN" ui:field="dropDownAnchor"/>
         <b:DropDownMenu ui:field="dropDownMenu"/>
       </b:DropDown>
     </b:Tooltip>

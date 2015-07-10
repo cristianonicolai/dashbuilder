@@ -15,25 +15,22 @@
  */
 package org.dashbuilder.client;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.dashbuilder.client.dashboard.DashboardManager;
 import org.dashbuilder.client.dashboard.DashboardPerspectiveActivity;
 import org.dashbuilder.client.dashboard.widgets.NewDashboardForm;
+import org.dashbuilder.client.resources.AppResource;
 import org.dashbuilder.client.resources.i18n.AppConstants;
 import org.dashbuilder.shared.dashboard.events.DashboardCreatedEvent;
 import org.dashbuilder.shared.dashboard.events.DashboardDeletedEvent;
+import org.gwtbootstrap3.client.ui.Image;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 import org.uberfire.client.mvp.PlaceManager;
+import org.uberfire.client.views.pfly.menu.MainBrand;
 import org.uberfire.client.workbench.events.ApplicationReadyEvent;
 import org.uberfire.client.workbench.widgets.menu.WorkbenchMenuBar;
 import org.uberfire.mvp.Command;
@@ -42,8 +39,17 @@ import org.uberfire.workbench.model.menu.MenuFactory;
 import org.uberfire.workbench.model.menu.MenuItem;
 import org.uberfire.workbench.model.menu.Menus;
 
-import static org.uberfire.workbench.events.NotificationEvent.NotificationType.*;
-import static org.uberfire.workbench.model.menu.MenuFactory.*;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.uberfire.workbench.events.NotificationEvent.NotificationType.INFO;
+import static org.uberfire.workbench.model.menu.MenuFactory.newTopLevelMenu;
 
 /**
  * Entry-point for the Dashbuilder showcase
@@ -184,5 +190,18 @@ public class ShowcaseEntryPoint {
                 e.getStyle().setVisibility( Style.Visibility.HIDDEN );
             }
         }.run( 500 );
+    }
+
+    @Produces
+    @ApplicationScoped
+    public MainBrand createBrandLogo() {
+        return new MainBrand() {
+            @Override
+            public Widget asWidget() {
+                final Image logo = new Image( AppResource.INSTANCE.images().ufUserLogo() );
+                logo.setSize("200px", "60px");
+                return logo;
+            }
+        };
     }
 }

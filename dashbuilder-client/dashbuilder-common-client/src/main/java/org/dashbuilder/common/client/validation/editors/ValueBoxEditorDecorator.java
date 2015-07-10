@@ -40,7 +40,7 @@ public class ValueBoxEditorDecorator<T> extends Composite implements
         HasValue<T>, HasEditorErrors<T>, IsEditor<ValueBoxEditor<T>> {
 
     // The GWT bootstrap styles for error panels.
-    private static final String STYLE_ERROR = " control-group error ";
+    private static final String STYLE_ERROR = " control-group has-error ";
     private T value;
 
     @Override

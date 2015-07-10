@@ -22,11 +22,12 @@
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
 
   <g:HorizontalPanel>
-    <b:TabPanel ui:field="displayerTypePanel" tabPosition="LEFT">
+    <b:TabPanel tabPosition="LEFT">
       <b:NavTabs ui:field="navTabs"/>
-      <g:VerticalPanel ui:field="displayerSubtypePanel"/>
+      <b:TabContent>
+        <b:TabPane ui:field="displayerSubTypePane"/>
+      </b:TabContent>
     </b:TabPanel>
   </g:HorizontalPanel>
-
 
 </ui:UiBinder>

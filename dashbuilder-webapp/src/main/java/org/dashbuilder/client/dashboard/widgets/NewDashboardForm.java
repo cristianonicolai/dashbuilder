@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 import org.dashbuilder.client.dashboard.DashboardManager;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.HelpBlock;
+import org.gwtbootstrap3.client.ui.ModalBody;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ValidationState;
 import org.uberfire.ext.widgets.common.client.common.popups.BaseModal;
@@ -58,7 +59,9 @@ public class NewDashboardForm extends BaseModal {
     Listener listener;
 
     public NewDashboardForm() {
-        add(uiBinder.createAndBindUi(this));
+        final ModalBody modalBody = new ModalBody();
+        modalBody.add(uiBinder.createAndBindUi(this));
+        add(modalBody);
 
         ModalFooterOKCancelButtons footer = new ModalFooterOKCancelButtons(
                 new Command() {

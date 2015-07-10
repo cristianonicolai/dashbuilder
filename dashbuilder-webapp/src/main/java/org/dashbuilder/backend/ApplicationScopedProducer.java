@@ -21,6 +21,8 @@ import org.uberfire.io.impl.IOServiceDotFileImpl;
 import org.uberfire.io.impl.IOServiceNio2WrapperImpl;
 import org.uberfire.io.impl.cluster.IOServiceClusterImpl;
 import org.uberfire.java.nio.file.FileSystem;
+import org.uberfire.java.nio.file.FileSystemAlreadyExistsException;
+import org.uberfire.java.nio.file.FileSystemNotFoundException;
 
 @Startup(StartupType.BOOTSTRAP)
 @ApplicationScoped
@@ -51,17 +53,20 @@ public class ApplicationScopedProducer {
         } else {
             ioService = new IOServiceClusterImpl(new IOServiceDotFileImpl(watchService), clusterServiceFactory);
         }
+        
+        // NOTE: The creation of the system git repository should be done by uberfire itself, but
+        // currently exist a bug on UF about it -> the system git repository is not created by uf.
+        // So as a temporary workaround, let's ensure that it's created at application startup. 
         try {
-            systemFS = configIO.getFileSystem( URI.create( "git://system" ));
-        }
-        catch ( Exception e ){
-
             systemFS = configIO.newFileSystem( URI.create( "git://system" ),
-                                               new HashMap<String, Object>() {{
-                                                   put( "init", Boolean.TRUE );
-                                                   put( "internal", Boolean.TRUE );
-                                               }} );
+                    new HashMap<String, Object>() {{
+                        put( "init", Boolean.TRUE );
+                        put( "internal", Boolean.TRUE );
+                    }} );
+        }  catch ( final FileSystemAlreadyExistsException ignore ) {
+            systemFS = ioService.getFileSystem( URI.create( "git://system" ) );
         }
+        
     }
 
     @Produces

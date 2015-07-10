@@ -143,6 +143,9 @@ public class DisplayerEditorView extends Composite
         leftPanel.add(typeSelector);
 
         dataTablePanel.setVisible(false);
+        optionData.setActive(false);
+        optionSettings.setActive(false);
+        optionType.setActive(true);
         showDisplayer();
     }
 
@@ -167,6 +170,9 @@ public class DisplayerEditorView extends Composite
         } else {
             dataTablePanel.setVisible(true);
         }
+        optionSettings.setActive(false);
+        optionType.setActive(false);
+        optionData.setActive(true);
         showDisplayer();
     }
 
@@ -198,6 +204,9 @@ public class DisplayerEditorView extends Composite
         leftPanel.add(settingsEditor);
 
         dataTablePanel.setVisible(false);
+        optionType.setActive(false);
+        optionData.setActive(false);
+        optionSettings.setActive(true);
         showDisplayer();
     }
 

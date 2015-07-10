@@ -99,7 +99,7 @@ public class DisplayerSettingsEditor extends Composite {
         this.displayerContraints = displayer.getDisplayerConstraints();
         this.supportedAttributes = displayerContraints.getSupportedAttributes();
 
-        propertyEditor.setFilterGroupVisible(false);
+        // propertyEditor.setFilterGroupVisible(false);
         try {
             displayer.getDataSetHandler().lookupDataSet(new DataSetReadyCallback() {
                 public void callback(DataSet dataSet) {

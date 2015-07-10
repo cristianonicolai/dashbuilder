@@ -46,6 +46,7 @@ import org.gwtbootstrap3.client.ui.ButtonGroup;
 import org.gwtbootstrap3.client.ui.DropDownMenu;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.Pull;
+import org.gwtbootstrap3.client.ui.constants.Toggle;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.annotations.WorkbenchMenu;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
@@ -375,6 +376,7 @@ public class DisplayerScreenPresenter {
             add( new Button( Constants.INSTANCE.menu_button_actions() ) {{
                 setSize( ButtonSize.EXTRA_SMALL );
                 addStyleName( Pull.RIGHT.getCssName() );
+                setDataToggle(Toggle.DROPDOWN);
             }} );
             add( new DropDownMenu() {{
                 add( new AnchorListItem( Constants.INSTANCE.menu_edit() ) {{

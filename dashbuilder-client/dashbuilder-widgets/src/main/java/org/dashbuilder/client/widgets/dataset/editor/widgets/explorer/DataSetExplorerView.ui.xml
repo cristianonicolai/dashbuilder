@@ -5,69 +5,12 @@
     >
 
   <ui:with field="i18n" type="org.dashbuilder.client.widgets.resources.i18n.DataSetExplorerConstants"/>
-
-  <ui:style type="org.dashbuilder.client.widgets.dataset.editor.widgets.DataSetExplorerView.DataSetExplorerViewStyle">
+  <ui:with field='res' type='org.dashbuilder.dataset.client.resources.bundles.DataSetClientImages'/>
+  
+  <ui:style type="org.dashbuilder.client.widgets.dataset.editor.widgets.explorer.DataSetExplorerView.DataSetExplorerViewStyle">
     .mainPanel {
       width: 100%;
       font-size: 12pt;
-    }
-    .columnsPanel {
-      float: left;
-      width: 100%;
-    }
-    .statusPanel {
-      float: left;
-      width: 45%;
-      background-color: white;
-      border: 1px solid #E3E3E3;
-      border-radius: 4px 4px 4px 4px;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-      margin-bottom: 20px;
-      min-height: 20px;
-      padding: 10px;
-      text-align: left;
-    }
-    .statusIcon {
-      float: left;
-      margin-right: 10px;
-    }
-    .statusTextTitle {
-      font-size: small;
-      font-weight: bold;
-    }
-    .statusText {
-      font-size: small;      
-    }
-    .estimationsPanel {
-      float: left;
-      width: 30%;
-      background-color: whitesmoke;
-      border: 1px solid #E3E3E3;
-      border-radius: 4px 4px 4px 4px;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-      margin-bottom: 20px;
-      min-height: 20px;
-      padding: 10px;
-      text-align: center;
-      margin-left: 10px;
-    }
-    .buttonsPanel {
-      float:left;
-      width: 100%;
-      margin: 10px;
-      text-align: center;
-    }
-    .button {
-      margin-right: 10px;
-    }
-    .slidingPanel {
-      width: 100%;
-      height: 40px;
-      overflow: hidden;
-    }
-    .deleteText { 
-      float: left;
-      font-size: small;
     }
     .errorPanel {
       margin: 25px;
@@ -80,7 +23,7 @@
 
     }
   </ui:style>
-  
+
   <g:HTMLPanel addStyleNames="{style.mainPanel} ">
 
     <!-- Error panel. -->
@@ -118,15 +61,15 @@
       </b:ModalFooter>
 
     </b:Modal>
-    
-    <g:Label visible="false" ui:field="label"/>
+
+    <g:Label visible="false" ui:field="emptyLabel" text="{i18n.noDataSets}"/>
 
     <g:FlowPanel>
-      <b:PanelGroup ui:field="dataSetsAccordion">
-        
+      <b:PanelGroup ui:field="dataSetsPanelGroup" b:id="dataSetsExplorerPanelGroup">
+
       </b:PanelGroup>
     </g:FlowPanel>
-    
+
   </g:HTMLPanel>
   
 </ui:UiBinder>

@@ -175,10 +175,11 @@ public class RendererSelector extends Composite {
     private void buildTabList( List<RendererLibrary> renderers,
                                RendererLibrary currentLib ) {
 
-        tabPanel.clear();
-        tabPanel.setVisible( true );
         radioButtonsPanel.setVisible( false );
         listPanel.setVisible( false );
+        tabContent.clear();
+        navTabs.clear();
+        tabPanel.setVisible( true );
 
         for ( RendererLibrary rendererLib : renderers ) {
             final TabPane pane = new TabPane();
@@ -199,6 +200,7 @@ public class RendererSelector extends Composite {
 
             if ( currentLib != null && rendererLib.equals( currentLib ) ) {
                 tabListItem.setActive( true );
+                tabListItem.showTab();
             }
         }
     }

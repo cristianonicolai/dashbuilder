@@ -22,7 +22,7 @@
     <g:HorizontalPanel ui:field="radioButtonsPanel" visible="false" spacing="10"/>
 
     <!-- Tab list selector widget. -->
-    <b:TabPanel ui:field="tabPanel" visible="false" tabPosition="BELOW">
+    <b:TabPanel ui:field="tabPanel" visible="false" tabPosition="TOP">
       <b:TabContent ui:field="tabContent"/>
       <b:NavTabs ui:field="navTabs"/>
     </b:TabPanel>

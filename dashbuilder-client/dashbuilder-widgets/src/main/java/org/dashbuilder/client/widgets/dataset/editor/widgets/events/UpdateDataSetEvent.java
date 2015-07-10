@@ -6,12 +6,14 @@ import org.uberfire.workbench.events.UberFireEvent;
 /**
  * @since 0.3.0
  */
-public class SaveDataSetEvent extends ContextualEvent implements UberFireEvent {
+public class UpdateDataSetEvent extends ContextualEvent implements UberFireEvent {
 
+    private final String uuid;
     private final DataSetDef def;
 
-    public SaveDataSetEvent(Object context, DataSetDef def) {
+    public UpdateDataSetEvent(Object context, String uuid, DataSetDef def) {
         super(context);
+        this.uuid = uuid;
         this.def = def;
     }
 
@@ -19,8 +21,12 @@ public class SaveDataSetEvent extends ContextualEvent implements UberFireEvent {
         return def;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
     @Override
     public String toString() {
-        return "SaveDataSetEvent [UUID=" + def.getUUID() + "]";
+        return "UpdateDataSetEvent [UUID=" + uuid + "]";
     }
 }

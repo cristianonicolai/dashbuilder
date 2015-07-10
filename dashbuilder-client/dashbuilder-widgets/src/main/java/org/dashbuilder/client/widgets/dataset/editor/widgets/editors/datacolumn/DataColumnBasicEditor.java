@@ -58,7 +58,6 @@ public class DataColumnBasicEditor extends AbstractEditor implements DataColumnD
     ValueBoxEditorDecorator<String> id;
 
     @UiField
-    @Ignore
     DataColumnTypeEditor columnType;
 
     @UiField

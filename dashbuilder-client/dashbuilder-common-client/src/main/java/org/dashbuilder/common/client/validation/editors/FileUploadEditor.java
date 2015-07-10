@@ -25,7 +25,8 @@ import org.gwtbootstrap3.client.ui.Image;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.Tooltip;
 import org.gwtbootstrap3.client.ui.base.HasId;
-import org.uberfire.ext.widgets.common.client.common.FileInputButton;
+import org.uberfire.ext.widgets.common.client.common.FileUpload;
+import org.uberfire.mvp.Command;
 
 /**
  * <p>Editor component that wraps a gwt bootstrap file upload component an additionally provides:</p>
@@ -72,9 +73,9 @@ public class FileUploadEditor extends Composite implements
     @UiField
     Tooltip errorTooltip;
 
-    @UiField
+    @UiField(provided = true)
     @Editor.Ignore
-    FileInputButton fileUpload;
+    FileUpload fileUpload;
 
     @UiField
     @Editor.Ignore
@@ -101,15 +102,35 @@ public class FileUploadEditor extends Composite implements
      */
     @UiConstructor
     public FileUploadEditor() {
+
+        fileUpload = createFileUpload();
+        
         initWidget( Binder.BINDER.createAndBindUi( this ) );
 
-        fileUpload.addValueChangeHandler( filePathChangeHandler );
         loadingImage.setVisible( false );
 
         formPanel.setEncoding( FormPanel.ENCODING_MULTIPART );
         formPanel.setMethod( FormPanel.METHOD_POST );
         formPanel.setWidget( fileUpload );
         formPanel.addSubmitCompleteHandler( formSubmitCompleteHandler );
+    }
+
+    private FileUpload createFileUpload() {
+        return new FileUpload( new Command() {
+            @Override
+            public void execute() {
+                final String _f = callback.getUploadFileName();
+                final String _a = callback.getUploadFileUrl();
+                setText( _f );
+                formPanel.setAction( _a );
+                if ( loadingImage != null ) {
+                    fileUpload.setVisible( false );
+                    loadingImage.setVisible( true );
+                }
+                fileLabel.setVisible(false);
+                formPanel.submit();
+            }
+        }, true );
     }
 
     private final FormPanel.SubmitCompleteHandler formSubmitCompleteHandler = new FormPanel.SubmitCompleteHandler() {
@@ -136,23 +157,6 @@ public class FileUploadEditor extends Composite implements
         this.callback = callback;
     }
 
-    private final ValueChangeHandler<JsArray<FileInputButton.UploadFile>> filePathChangeHandler = new ValueChangeHandler<JsArray<FileInputButton.UploadFile>>() {
-
-        @Override
-        public void onValueChange( ValueChangeEvent<JsArray<FileInputButton.UploadFile>> valueChangeEvent ) {
-            final String _f = callback.getUploadFileName();
-            final String _a = callback.getUploadFileUrl();
-            setText( _f );
-            formPanel.setAction( _a );
-            if ( loadingImage != null ) {
-                fileUpload.setVisible( false );
-                loadingImage.setVisible( true );
-            }
-            fileLabel.setVisible( false );
-            formPanel.submit();
-        }
-    };
-
     @Override
     public String getId() {
         return id;
@@ -171,7 +175,7 @@ public class FileUploadEditor extends Composite implements
     @Override
     public void setText( String text ) {
         this.value = text;
-        if ( !isEmpty( fileUpload.getText() ) ) {
+        if ( !isEmpty( fileUpload.getFilename() ) ) {
             fileLabel.setVisible( false );
         } else if ( !isEmpty( text ) ) {
 

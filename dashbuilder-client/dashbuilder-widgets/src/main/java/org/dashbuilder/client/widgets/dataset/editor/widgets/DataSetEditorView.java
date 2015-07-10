@@ -18,7 +18,6 @@ package org.dashbuilder.client.widgets.dataset.editor.widgets;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -30,13 +29,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import org.dashbuilder.client.widgets.dataset.editor.DataSetDefEditWorkflow;
 import org.dashbuilder.client.widgets.dataset.editor.widgets.editors.*;
 import org.dashbuilder.client.widgets.dataset.editor.widgets.editors.bean.BeanDataSetDefAttributesEditor;
@@ -45,28 +38,18 @@ import org.dashbuilder.client.widgets.dataset.editor.widgets.editors.elasticsear
 import org.dashbuilder.client.widgets.dataset.editor.widgets.editors.sql.SQLDataSetDefAttributesEditor;
 import org.dashbuilder.client.widgets.resources.i18n.DataSetEditorConstants;
 import org.dashbuilder.common.client.error.ClientRuntimeError;
-import org.dashbuilder.common.client.widgets.TimeoutPopupPanel;
 import org.dashbuilder.dataprovider.DataSetProviderType;
 import org.dashbuilder.dataset.DataSet;
-import org.dashbuilder.dataset.DataSetLookup;
 import org.dashbuilder.dataset.client.DataSetClientServices;
 import org.dashbuilder.dataset.client.DataSetExportReadyCallback;
-import org.dashbuilder.dataset.client.resources.bundles.DataSetClientResources;
 import org.dashbuilder.dataset.def.*;
 import org.dashbuilder.displayer.client.Displayer;
 import org.dashbuilder.displayer.client.widgets.filter.DataSetFilterEditor;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Icon;
-import org.gwtbootstrap3.client.ui.Modal;
-import org.gwtbootstrap3.client.ui.Popover;
-import org.gwtbootstrap3.client.ui.Row;
-import org.gwtbootstrap3.client.ui.TabListItem;
-import org.gwtbootstrap3.client.ui.TabPane;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.TabPanel;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
-import org.gwtbootstrap3.client.ui.constants.ModalBackdrop;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.ext.widgets.common.client.common.BusyPopup;
 
@@ -570,7 +553,6 @@ public class DataSetEditorView extends Composite implements DataSetEditor.View {
 
     private void showFilterColumnsPreviewEditionView()
     {
-        activePreviewTab();
         tabViewPanel.setVisible(true);
         showTab(configurationTabItem);
         showTab(previewTabItem);
@@ -735,21 +717,15 @@ public class DataSetEditorView extends Composite implements DataSetEditor.View {
     }
 
     private void activeConfigurationTab() {
-        configurationTabItem.setActive(true);
-        previewTabItem.setActive(false);
-        advancedConfigurationTabItem.setActive(false);
+        configurationTabItem.showTab();
     }
     
     private void activePreviewTab() {
-        configurationTabItem.setActive(false);
-        previewTabItem.setActive(true);
-        advancedConfigurationTabItem.setActive(false);
+        previewTabItem.showTab();
     }
 
     private void activeAdvancedConfigurationTab() {
-        configurationTabItem.setActive(false);
-        previewTabItem.setActive(false);
-        advancedConfigurationTabItem.setActive( true );
+        advancedConfigurationTabItem.showTab();
     }
     
     private void clearView() {
@@ -874,4 +850,5 @@ public class DataSetEditorView extends Composite implements DataSetEditor.View {
         tabNoErrors(advancedConfigurationTabItem);
     }
 
+    
 }

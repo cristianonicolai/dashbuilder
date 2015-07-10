@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.editor.client.HasEditorErrors;
@@ -68,28 +67,35 @@ public class DropDownImageListEditor<T> extends Composite implements
     DropDownImageListEditorStyle style;
 
     @UiField
+    @Ignore
     HTMLPanel errorPanel;
 
     @UiField
+    @Ignore
     DropDown dropDown;
 
     @UiField
+    @Ignore
     Anchor dropDownAnchor;
 
     @UiField
+    @Ignore
     DropDownMenu dropDownMenu;
 
     @UiField
+    @Ignore
     Tooltip errorTooltip;
 
+    @Ignore
     Image currentTypeImage;
+
+    @Ignore
     InlineLabel caret;
 
     public DropDownImageListEditor() {
         // UI binding.
         initWidget( Binder.BINDER.createAndBindUi( this ) );
         currentTypeImage = new Image();
-        currentTypeImage.setVisible( false );
         caret = new InlineLabel();
         caret.addStyleName( "caret" );
 

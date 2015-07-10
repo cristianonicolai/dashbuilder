@@ -30,8 +30,8 @@
         <g:HTML text="{i18n.attributeUUID}" addStyleNames="{style.label}"/>
       </b:Column>
       <b:Column size="MD_3">
-        <b:Popover showDelayMs="1000" content="{i18n.attributeUUID_description}" title="{i18n.attributeUUID}">
-          <dash-client:ValueBoxEditorDecorator errorLabelPosition="TOOLTIP_TOP" ui:field="attributeUUID" addStyleNames="{style.input}">
+        <b:Popover showDelayMs="1000" placement="BOTTOM" content="{i18n.attributeUUID_description}" title="{i18n.attributeUUID}">
+          <dash-client:ValueBoxEditorDecorator errorLabelPosition="TOOLTIP_BOTTOM" ui:field="attributeUUID" addStyleNames="{style.input}">
             <dash-client:valuebox>
               <b:TextBox enabled="false" placeholder="{i18n.attributeUUID}"/>
             </dash-client:valuebox>
@@ -46,8 +46,8 @@
         <g:HTML text="{i18n.attributeName}" addStyleNames="{style.label}"/>
       </b:Column>
       <b:Column size="MD_3">
-        <b:Popover showDelayMs="1000" content="{i18n.attributeName_description}" title="{i18n.attributeName}">
-          <dash-client:ValueBoxEditorDecorator errorLabelPosition="TOOLTIP_TOP" ui:field="name" addStyleNames="{style.input}">
+        <b:Popover showDelayMs="1000" placement="BOTTOM" content="{i18n.attributeName_description}" title="{i18n.attributeName}">
+          <dash-client:ValueBoxEditorDecorator errorLabelPosition="TOOLTIP_BOTTOM" ui:field="name" addStyleNames="{style.input}">
             <dash-client:valuebox>
               <b:TextBox placeholder="{i18n.attributeName}" />
             </dash-client:valuebox>

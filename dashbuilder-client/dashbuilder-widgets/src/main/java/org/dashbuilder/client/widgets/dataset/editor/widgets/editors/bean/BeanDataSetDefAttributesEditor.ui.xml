@@ -19,6 +19,8 @@
       margin-bottom: 20px;
       min-height: 20px;
       padding: 19px;
+      margin-top: 10px;
+      margin-left: 18px;
     }
   </ui:style>
 
@@ -46,7 +48,7 @@
         <g:HTML text="{i18n.bean_generator_params}"/>
       </b:Column>
       <b:Column size="MD_3" addStyleNames="{style.parameterMapColumn} ">
-        <b:Popover showDelayMs="1000" content="{i18n.bean_generator_params_description}" title="{i18n.bean_generator_params}">
+        <b:Popover showDelayMs="1000" content="{i18n.bean_generator_params_description}" title="{i18n.bean_generator_params}" placement="BOTTOM" >
           <dash-client:MapEditor ui:field="paramaterMap"/>
         </b:Popover>
       </b:Column>
