@@ -27,6 +27,7 @@ import org.dashbuilder.displayer.client.Displayer;
 import org.dashbuilder.displayer.client.DisplayerCoordinator;
 import org.dashbuilder.displayer.client.DisplayerHelper;
 import org.dashbuilder.dataset.group.DateIntervalType;
+import org.dashbuilder.renderer.client.DefaultRenderer;
 
 import static org.dashbuilder.shared.sales.SalesConstants.*;
 import static org.dashbuilder.dataset.sort.SortOrder.*;
@@ -85,6 +86,7 @@ public class SalesTableReports extends Composite implements GalleryWidget {
         tableAll = DisplayerHelper.lookupDisplayer(
                 DisplayerSettingsFactory.newTableSettings()
                 .dataset(SALES_OPPS)
+                .renderer(DefaultRenderer.UUID)
                 .title(AppConstants.INSTANCE.sales_tablereports_all_title())
                 .titleVisible(true)
                 .tablePageSize(8)
@@ -105,6 +107,7 @@ public class SalesTableReports extends Composite implements GalleryWidget {
         tableByCountry = DisplayerHelper.lookupDisplayer(
                 DisplayerSettingsFactory.newTableSettings()
                 .dataset(SALES_OPPS)
+                .renderer(DefaultRenderer.UUID)
                 .group(COUNTRY)
                 .column(COUNTRY, AppConstants.INSTANCE.sales_tablereports_bycountry_column1())
                 .column(COUNT, AppConstants.INSTANCE.sales_tablereports_bycountry_column2())
@@ -123,6 +126,7 @@ public class SalesTableReports extends Composite implements GalleryWidget {
         tableByProduct = DisplayerHelper.lookupDisplayer(
                 DisplayerSettingsFactory.newTableSettings()
                 .dataset(SALES_OPPS)
+                .renderer(DefaultRenderer.UUID)
                 .group(PRODUCT)
                 .column(PRODUCT, AppConstants.INSTANCE.sales_tablereports_byproduct_column1())
                 .column(COUNT, AppConstants.INSTANCE.sales_tablereports_byproduct_column2())
@@ -141,6 +145,7 @@ public class SalesTableReports extends Composite implements GalleryWidget {
         tableBySalesman = DisplayerHelper.lookupDisplayer(
                 DisplayerSettingsFactory.newTableSettings()
                 .dataset(SALES_OPPS)
+                .renderer(DefaultRenderer.UUID)
                 .group(SALES_PERSON)
                 .column(SALES_PERSON, AppConstants.INSTANCE.sales_tablereports_bysalesman_column1())
                 .column(COUNT, AppConstants.INSTANCE.sales_tablereports_bysalesman_column2())
@@ -159,6 +164,7 @@ public class SalesTableReports extends Composite implements GalleryWidget {
         tableByYear = DisplayerHelper.lookupDisplayer(
                 DisplayerSettingsFactory.newTableSettings()
                 .dataset(SALES_OPPS)
+                .renderer(DefaultRenderer.UUID)
                 .group(CREATION_DATE).dynamic(DateIntervalType.YEAR, true)
                 .column(CREATION_DATE, AppConstants.INSTANCE.sales_tablereports_byyear_column1())
                 .column(COUNT, AppConstants.INSTANCE.sales_tablereports_byyear_column2())

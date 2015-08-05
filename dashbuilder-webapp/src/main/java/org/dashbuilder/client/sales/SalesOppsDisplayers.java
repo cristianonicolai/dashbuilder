@@ -19,6 +19,7 @@ import org.dashbuilder.client.resources.i18n.AppConstants;
 import org.dashbuilder.dataset.group.DateIntervalType;
 import org.dashbuilder.displayer.DisplayerSettings;
 import org.dashbuilder.displayer.DisplayerSettingsFactory;
+import org.dashbuilder.renderer.client.DefaultRenderer;
 
 import static org.dashbuilder.shared.sales.SalesConstants.*;
 import static org.dashbuilder.dataset.sort.SortOrder.*;
@@ -113,6 +114,7 @@ public class SalesOppsDisplayers {
 
     public static final DisplayerSettings OPPS_COUNTRY_SUMMARY = DisplayerSettingsFactory.newTableSettings()
             .uuid("opps-country-summary")
+            .renderer(DefaultRenderer.UUID)
             .dataset(SALES_OPPS)
             .group(COUNTRY)
             .column(COUNTRY, AppConstants.INSTANCE.salesopps_displayers_country_summary_column1())
@@ -130,6 +132,7 @@ public class SalesOppsDisplayers {
 
     public static final DisplayerSettings OPPS_ALLOPPS_LISTING = DisplayerSettingsFactory.newTableSettings()
             .uuid("opps-allopps-listing")
+            .renderer(DefaultRenderer.UUID)
             .dataset(SALES_OPPS)
             .title(AppConstants.INSTANCE.salesopps_displayers_all_list_title())
             .titleVisible(false)

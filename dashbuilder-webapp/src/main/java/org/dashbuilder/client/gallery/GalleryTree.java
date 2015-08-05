@@ -21,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.dashbuilder.client.resources.i18n.AppConstants;
-import org.dashbuilder.dataset.filter.FilterFactory;
 import org.dashbuilder.displayer.DisplayerSettings;
 import org.dashbuilder.displayer.DisplayerSettingsFactory;
 import org.dashbuilder.dataset.DataSetFactory;
@@ -494,6 +492,7 @@ public class GalleryTree {
         nodeList.add(new GalleryPlaceRequest(AppConstants.INSTANCE.gallerytree_table_basic(), createPlaceRequest(
                 DisplayerSettingsFactory.newTableSettings()
                         .dataset(SALES_OPPS)
+                        .renderer(DefaultRenderer.UUID)
                         .column(COUNTRY, AppConstants.INSTANCE.gallerytree_table_basic_column1())
                         .column(CUSTOMER, AppConstants.INSTANCE.gallerytree_table_basic_column2())
                         .column(PRODUCT, AppConstants.INSTANCE.gallerytree_table_basic_column3())
@@ -514,6 +513,7 @@ public class GalleryTree {
         nodeList.add(new GalleryPlaceRequest(AppConstants.INSTANCE.gallerytree_table_filtered(), createPlaceRequest(
                 DisplayerSettingsFactory.newTableSettings()
                         .dataset(SALES_OPPS)
+                        .renderer(DefaultRenderer.UUID)
                         .column(CUSTOMER, AppConstants.INSTANCE.gallerytree_table_filtered_column1())
                         .column(PRODUCT, AppConstants.INSTANCE.gallerytree_table_filtered_column2())
                         .column(STATUS, AppConstants.INSTANCE.gallerytree_table_filtered_column3())
@@ -533,6 +533,7 @@ public class GalleryTree {
         nodeList.add(new GalleryPlaceRequest(AppConstants.INSTANCE.gallerytree_table_grouped(), createPlaceRequest(
                 DisplayerSettingsFactory.newTableSettings()
                         .dataset(SALES_OPPS)
+                        .renderer(DefaultRenderer.UUID)
                         .group(COUNTRY)
                         .column(COUNTRY, AppConstants.INSTANCE.gallerytree_table_grouped_column1())
                         .column(COUNT, "#Opps").format(AppConstants.INSTANCE.gallerytree_table_grouped_column2(), "#,##0")

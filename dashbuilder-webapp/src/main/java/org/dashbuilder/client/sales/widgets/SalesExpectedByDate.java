@@ -26,6 +26,7 @@ import org.dashbuilder.displayer.DisplayerSettingsFactory;
 import org.dashbuilder.displayer.client.Displayer;
 import org.dashbuilder.displayer.client.DisplayerCoordinator;
 import org.dashbuilder.displayer.client.DisplayerHelper;
+import org.dashbuilder.renderer.client.DefaultRenderer;
 
 import static org.dashbuilder.dataset.group.DateIntervalType.*;
 import static org.dashbuilder.dataset.date.DayOfWeek.*;
@@ -165,6 +166,7 @@ public class SalesExpectedByDate extends Composite implements GalleryWidget {
         tableAll = DisplayerHelper.lookupDisplayer(
                 DisplayerSettingsFactory.newTableSettings()
                         .dataset(SALES_OPPS)
+                        .renderer(DefaultRenderer.UUID)
                         .title(AppConstants.INSTANCE.sales_bydate_title())
                         .titleVisible(true)
                         .tablePageSize(5)

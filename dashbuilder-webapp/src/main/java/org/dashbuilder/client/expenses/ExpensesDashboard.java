@@ -26,6 +26,7 @@ import org.dashbuilder.displayer.DisplayerSettingsFactory;
 import org.dashbuilder.displayer.client.Displayer;
 import org.dashbuilder.displayer.client.DisplayerCoordinator;
 import org.dashbuilder.displayer.client.DisplayerHelper;
+import org.dashbuilder.renderer.client.DefaultRenderer;
 
 import static org.dashbuilder.dataset.group.DateIntervalType.*;
 import static org.dashbuilder.dataset.sort.SortOrder.*;
@@ -145,6 +146,7 @@ public class ExpensesDashboard extends Composite implements GalleryWidget {
         tableAll = DisplayerHelper.lookupDisplayer(
                 DisplayerSettingsFactory.newTableSettings()
                         .dataset(EXPENSES)
+                        .renderer(DefaultRenderer.UUID)
                         .title(AppConstants.INSTANCE.expensesdb_table_title())
                         .titleVisible(false)
                         .tablePageSize(8)
